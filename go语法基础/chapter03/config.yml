@@ -1,0 +1,8 @@
+
+rsyncCmd: "/usr/local/rsync/bin/rsync"
+origin_host: "192.168.1.138"
+origin_path: "proxy_net"
+local_secrets: "/usr/local/rsync/rsyncd-secrets"
+local_path: "/data/www/proxy_net"
+
+
