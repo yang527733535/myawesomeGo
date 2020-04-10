@@ -14,6 +14,8 @@ func main() {
 	for index,value:=range slice{
 		num := value
 		fmt.Println(num)
+
+
 		myMap[index] = &num
 	}
 	fmt.Println("=====new map=====")
