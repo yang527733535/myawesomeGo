@@ -23,6 +23,11 @@ func main()  {
  }
  fmt.Println(p5)
 
+
+
+
+
+
  //也可以对结构体指针进行键值对初始化，例如
 	p6 := &person{
 		name: "小王子",
