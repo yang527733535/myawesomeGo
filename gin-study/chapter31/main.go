@@ -46,4 +46,5 @@ func main()  {
 	mymap["S1"]["name"] = "yangxiaohuo"
 	mymap["S1"]["sex"] = "man"
 	fmt.Println(mymap["S1"])
+
 }
