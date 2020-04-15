@@ -35,3 +35,17 @@ func (account *account) ShowInfo(pwd string) {
 		fmt.Println("你的账号accountNo:", account.accountNo, "你的余额:", account.num)
 	}
 }
+
+//用来给账户存钱的方法
+func (account *account) AddMoney(pwd string, money float64) {
+	if pwd != account.password {
+		fmt.Println("你输入的密码有误")
+		return
+	}
+	if money <= 0 {
+		fmt.Println("你输入的金额有问题")
+		return
+	}
+	account.num = account.num + money
+	fmt.Println("你的账号accountNo:", account.accountNo, "你的余额:", account.num)
+}
