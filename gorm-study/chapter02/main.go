@@ -10,7 +10,7 @@ import (
 type User struct {
 	ID   int64
 	Name string `gorm:"default:'小王子'"`
-	Age  int64
+	Age  int
 }
 
 func main() {
@@ -26,7 +26,7 @@ func main() {
 	////fmt.Println(db.NewRecord(user)) // 主键为空返回`true`
 	//db.Create(&u1)
 
-	//var users []User
+	var users []User
 	var user User
 	//db.Find(&users)
 	//fmt.Println(users)
@@ -36,10 +36,15 @@ func main() {
 	//db.Where("name IN (?)", []string{"q1mi", "xixixi"}).Find(&users)
 	//db.Where("name LIKE ?", "%xi%").Find(&users)
 	//db.Where("name = ? AND age = ?", "DDFG", "20").Find(&user)
-	db.Where(&User{Name: "DDFG", Age: 0}).First(&user)
+	//db.Where(&User{Name: "DDFG", Age: 0}).First(&user)
+	//db.Not([]int64{}).Find(&users)
+	//db.Order("age desc, name").Find(&users)
+	db.Order("age asc , name").Find(&users)
 	//db.Where(map[string]interface{}{"name": "DDFG", "age": 20}).Find(&users)
 	//db.Where([]int64{4, 8}).Find(&users)
 	//fmt.Println(user)
+	db.Where(User{Name: "sdf"}).FirstOrInit(&user)
+	fmt.Println(users)
 	fmt.Println(user)
 	//fmt.Println(users)
 	//user := User{Name: "q1mi", Age: 18}
