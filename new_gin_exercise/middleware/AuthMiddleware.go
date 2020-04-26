@@ -11,7 +11,6 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取 TOKEN
 		tokenString := ctx.GetHeader("Authorization")
-
 		if tokenString == "" || !strings.HasPrefix(tokenString, "Bearer") {
 			ctx.JSON(401, gin.H{
 				"code": 401,
