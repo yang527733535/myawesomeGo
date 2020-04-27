@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"github.com/spf13/viper"
 	"mymod/common"
 	"mymod/routes"
 	"os"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/spf13/viper"
 )
 
 func main() {
@@ -21,7 +22,7 @@ func main() {
 
 	r = routes.CollectRoute(r)
 
-	panic(r.Run())
+	panic(r.Run(":8082"))
 	// listen and serve on 0.0.0.0:8080
 }
 

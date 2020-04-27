@@ -2,15 +2,17 @@ package controller
 
 import (
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
-	"golang.org/x/crypto/bcrypt"
 	"log"
 	"mymod/common"
 	"mymod/dto"
 	"mymod/model"
 	"mymod/response"
+	"strconv"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
+	"golang.org/x/crypto/bcrypt"
 
 	//"mymod/util"
 	"mymod/utils"
@@ -28,12 +30,6 @@ func Register(ctx *gin.Context) {
 	DB := common.GetDb()
 	//获取参数
 
-	//var userInfo = model.User{}
-	//json.NewDecoder(ctx.Request.Body).Decode(&userInfo)
-
-	//name := userInfo.Name
-	//telephone := userInfo.Telephone
-	//password := userInfo.Password
 	var requsetLoginUser = model.User{}
 
 	ctx.Bind(&requsetLoginUser)
@@ -185,6 +181,44 @@ func Login(ctx *gin.Context) {
 	response.Success(ctx, gin.H{"token": token, "user": dto.ToUserDto(user)}, "success")
 }
 
+func EditUserName(ctx *gin.Context) {
+	DB := common.GetDb()
+	var requsetUser = model.User{}
+
+	ctx.Bind(&requsetUser)
+	//fmt.Println(requsetUser)
+	UserId := requsetUser.Model.ID
+	telephone := requsetUser.Telephone
+	fmt.Println(requsetUser)
+	if len(telephone) < 11 {
+		response.Fail(ctx, nil, "手机号码输入错误")
+	}
+	fmt.Println(UserId, requsetUser.Name)
+	//判断手机号码是否存在
+	var user model.User
+	// 将这个结构体指针传入到函数中
+
+	DB.Model(&user).Where("id = ?", UserId).Update("name", requsetUser.Name).Update("telephone", telephone)
+	//DB.Model(&user).Where("id = ?", UserId).Update("telephone", requsetUser.Telephone)
+	fmt.Println(user)
+	//fmt.Println(user)
+
+	response.Success(ctx, nil, "success")
+}
+
+func Delete(ctx *gin.Context) {
+	DB := common.GetDb()
+	deleteId, _ := strconv.Atoi(ctx.Params.ByName("id"))
+	fmt.Println("我获取到要删除的ID啦", deleteId)
+	// var requsetUser = model.User{}
+
+	if err := DB.Delete(model.User{}, deleteId).Error; err != nil {
+		response.Fail(ctx, nil, "删除失败")
+		return
+	}
+	response.Success(ctx, nil, "删除成功")
+}
+
 func Test(ctx *gin.Context) {
 
 	ctx.JSON(200, gin.H{
@@ -198,7 +232,7 @@ func telephoneExit(db *gorm.DB, telephone string) bool {
 	// 将这个结构体指针传入到函数中
 	db.Where("telephone = ?", telephone).First(&user)
 	log.Println(user)
-	if user.ID != 0 {
+	if user.Model.ID != 0 {
 		return true
 	}
 	return false
